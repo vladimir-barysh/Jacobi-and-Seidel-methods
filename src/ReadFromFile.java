@@ -1,9 +1,9 @@
 import java.io.*;
 import java.util.*;
 
-public class MatrixFromFile {
+public class ReadFromFile {
 
-    public static void ReadMatrixFromFile(List<double[]> matrixListA, String filenameA, List<Double> matrixListB, String filenameB) {
+    public static void ReadMatrix(List<double[]> matrixListA, String filenameA, List<Double> matrixListB, String filenameB) {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filenameA))) {
             String line;
@@ -36,5 +36,18 @@ public class MatrixFromFile {
             System.out.println("Ошибка при чтении файла: " + e.getMessage());
         }
 
+    }
+
+    public static double ReadEps(String fileName){
+        double eps = 1;
+        try (Scanner scan = new Scanner(new File(fileName))){
+            if (scan.hasNextDouble()) {
+                eps = scan.nextDouble();
+            }
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        return eps;
     }
 }

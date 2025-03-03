@@ -1,54 +1,8 @@
 import java.io.*;
 import java.util.*;
 
-public class LinearSystemSolver extends LinearSystem{
-    public LinearSystemSolver(List<double[]> matrixListA, List<Double> matrixListB) {
-        super(matrixListA, matrixListB);
-    }
+public class LinearSystemSolver{
 
-    /**
-     * Метод решения СЛАУ методом Зейделя (Gauss-Seidel).
-     * @param A матрица коэффициентов
-     * @param b столбец свободных членов
-     * @param eps требуемая точность
-     * @param initialGuess начальное приближение (если null, используется вектор нулей)
-     * @param maxIterations максимальное число итераций
-     * @return объект Result с решением, числом итераций и нормой невязки
-     */
-    public static Result solveGaussSeidel(double[][] A, double[] b, double eps, double[] initialGuess, int maxIterations) {
-        int n = b.length;
-        double[] x = new double[n];
-        if (initialGuess != null && initialGuess.length == n) {
-            System.arraycopy(initialGuess, 0, x, 0, n);
-        } else {
-            Arrays.fill(x, 0.0);
-        }
-        int iterations = 0;
-        while (iterations < maxIterations) {
-            double error = 0;
-            for (int i = 0; i < n; i++) {
-                double sum = 0;
-                for (int j = 0; j < n; j++) {
-                    if (j != i) {
-                        sum += A[i][j] * x[j];
-                    }
-                }
-                double newXi = (b[i] - sum) / A[i][i];
-                error = Math.max(error, Math.abs(newXi - x[i]));
-                x[i] = newXi;
-            }
-            iterations++;
-            if (error < eps) {
-                break;
-            }
-        }
-        double residualNorm = NevyazkaNormCompute(A, x);
-        return new Result(x, iterations, residualNorm);
-    }
-
-    /**
-     * Запись строки в выходной файл.
-     */
     public static void writeOutput(String filename, String content) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             writer.write(content);

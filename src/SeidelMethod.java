@@ -1,8 +1,8 @@
 import java.util.*;
 
-public class JacobiMethod{
+public class SeidelMethod {
 
-    public static Result JacobiCompute(double[][] matrix, double eps) {
+    public static Result SeidelCompute(double[][] matrix,double eps) {
         int variableNumber = matrix[0].length - 1;
         double[] x = new double[variableNumber];
         double[] newX = new double[variableNumber];
@@ -22,7 +22,7 @@ public class JacobiMethod{
             iterations++;
 
             for (int i = 0; i < variableNumber; i++) {
-                double sum = 0;
+                double sum = 0.0;
 
                 for (int j = 0; j < variableNumber; j++) {
                     if (j != i) {
@@ -30,17 +30,19 @@ public class JacobiMethod{
                     }
                 }
                 newX[i] = (matrix[i][variableNumber] - sum) / matrix[i][i];
+                x[i] = newX[i];
             }
 
             realEps = 0;
             for (int i = 0; i < variableNumber; i++) {
                 realEps = Math.max(realEps, Math.abs(newX[i] - x[i]));
-                x[i] = newX[i];
+
             }
 
-        } while (realEps > eps);
+        }while (realEps > eps);
 
         double residualNorm = LinearSystem.NevyazkaNormCompute(matrix, x);
         return new Result(x, iterations, residualNorm);
     }
+
 }

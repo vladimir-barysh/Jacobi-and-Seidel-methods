@@ -21,22 +21,22 @@ public class SeidelMethod {
         do {
             iterations++;
 
+            double[] prevX = x.clone();
             for (int i = 0; i < variableNumber; i++) {
-                double sum = 0.0;
+                double sum = 0;
 
                 for (int j = 0; j < variableNumber; j++) {
                     if (j != i) {
                         sum += matrix[i][j] * x[j];
                     }
                 }
-                newX[i] = (matrix[i][variableNumber] - sum) / matrix[i][i];
-                x[i] = newX[i];
+                x[i] = (matrix[i][variableNumber] - sum) / matrix[i][i];
+
             }
 
             realEps = 0;
             for (int i = 0; i < variableNumber; i++) {
-                realEps = Math.max(realEps, Math.abs(newX[i] - x[i]));
-
+                realEps = Math.max(realEps, Math.abs(x[i] - prevX[i]));
             }
 
         }while (realEps > eps);

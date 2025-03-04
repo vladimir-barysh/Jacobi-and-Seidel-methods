@@ -6,6 +6,7 @@ public class JacobiMethod{
         int variableNumber = matrix[0].length - 1;
         double[] x = new double[variableNumber];
         double[] newX = new double[variableNumber];
+        boolean converges = true;
 
         Arrays.fill(x, 0.0);
 
@@ -13,8 +14,33 @@ public class JacobiMethod{
         double realEps = 0;
 
         for (int i = 0; i < variableNumber; i++) {
+            double sum = 0;
             if (matrix[i][i] == 0) {
                 throw new IllegalArgumentException("Элемент на диагонали не должен быть равен 0 в строке " + i);
+            }
+            for (int j = 0; j < variableNumber; j++){
+                if (i != j){
+                    sum += matrix[i][j];
+                }
+            }
+
+            if (Math.abs(matrix[i][i]) < Math.abs(sum)){
+                converges = false;
+            }
+
+        }
+
+        if (!converges){
+            System.out.println("Внимание!");
+            System.out.println("Строгое диагональное преобладание не соблюдается, матрица может не сходиться.");
+            System.out.println("Продолжить вычисление?");
+            System.out.println("1 - да, 2 - нет");
+            Scanner scanner = new Scanner(System.in);
+            int cont = scanner.nextInt();
+            switch (cont){
+                case 1: break;
+                case 2: throw new IllegalArgumentException("Error, doesn't converges");
+                default: throw new IllegalArgumentException("Error, there is no variant like that");
             }
         }
 

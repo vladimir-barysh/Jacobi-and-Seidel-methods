@@ -12,12 +12,6 @@ public class SeidelMethod {
         int iterations = 0;
         double realEps = 0;
 
-        for (int i = 0; i < variableNumber; i++) {
-            if (matrix[i][i] == 0) {
-                throw new IllegalArgumentException("Элемент на диагонали не должен быть равен 0 в строке " + i);
-            }
-        }
-
         do {
             iterations++;
 

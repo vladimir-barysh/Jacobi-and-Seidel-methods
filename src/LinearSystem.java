@@ -23,6 +23,16 @@ public class LinearSystem {
 
     }
 
+    public LinearSystem(double[][] matrixA, double[] matrixB){
+        int matrixSize = matrixB.length;
+        this.matrixC = new double[matrixSize][matrixSize + 1];
+
+        for (int i = 0; i < matrixSize; i++){
+            System.arraycopy(matrixA[i], 0, this.matrixC[i], 0, matrixSize);
+            this.matrixC[i][matrixSize] = matrixB[i];
+        }
+    }
+
     public double[][] getMatrixA() {
         return matrixA;
     }

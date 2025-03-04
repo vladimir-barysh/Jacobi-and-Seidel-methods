@@ -1,5 +1,4 @@
 import java.util.*;
-
 public class SeidelMethod {
 
     public static Result SeidelCompute(double[][] matrix,double eps) {

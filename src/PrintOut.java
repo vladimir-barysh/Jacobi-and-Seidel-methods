@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-
 public class PrintOut {
 
     public static void PrintToConsole(Result resJacobi, Result resSeidel){

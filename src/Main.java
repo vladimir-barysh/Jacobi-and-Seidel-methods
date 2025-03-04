@@ -1,77 +1,78 @@
 import java.util.*;
+public class Main {
+        public static void main(String[] args) {
 
-public static void main(String[] args) {
+                System.out.println("Выберите режим работы:");
+                System.out.println("1 - считать матрицу из файла");
+                System.out.println("2 - создать случайную матрицу размером n");
 
-    System.out.println("Выберите режим работы:");
-    System.out.println("1 - считать матрицу из файла");
-    System.out.println("2 - создать случайную матрицу размером n");
+                Scanner in = new Scanner(System.in);
+                int mode = in.nextInt();
 
-    Scanner in = new Scanner(System.in);
-    int mode = in.nextInt();
+                switch (mode) {
+                        case 1: {
+                                String fileA = "matrixA.txt";
+                                String fileB = "matrixB.txt";
 
-    switch (mode) {
-        case 1:{
-            String fileA = "matrixA.txt";
-            String fileB = "matrixB.txt";
+                                List<double[]> matrixListA = new ArrayList<>();
+                                List<Double> matrixListB = new ArrayList<>();
 
-            List<double[]> matrixListA = new ArrayList<>();
-            List<Double> matrixListB = new ArrayList<>();
+                                ReadFromFile.ReadMatrix(matrixListA, fileA, matrixListB, fileB);
 
-            ReadFromFile.ReadMatrix(matrixListA, fileA, matrixListB, fileB);
+                                LinearSystem newSystem = new LinearSystem(matrixListA, matrixListB);
 
-            LinearSystem newSystem = new LinearSystem(matrixListA, matrixListB);
+                                String fileEps = "accuracy.txt";
+                                double eps = ReadFromFile.ReadEps(fileEps);
 
-            String fileEps = "accuracy.txt";
-            double eps = ReadFromFile.ReadEps(fileEps);
+                                Result resJacobi = JacobiMethod.JacobiCompute(newSystem.getMatrixC(), eps);
 
-            Result resJacobi = JacobiMethod.JacobiCompute(newSystem.getMatrixC(), eps);
+                                Result resSeidel = SeidelMethod.SeidelCompute(newSystem.getMatrixC(), eps);
 
-            Result resSeidel = SeidelMethod.SeidelCompute(newSystem.getMatrixC(), eps);
+                                PrintOut.PrintToConsole(resJacobi, resSeidel);
 
-            PrintOut.PrintToConsole(resJacobi, resSeidel);
+                                PrintOut.PrintToFile(resJacobi, resSeidel);
 
-            PrintOut.PrintToFile(resJacobi, resSeidel);
+                                break;
+                        }
 
-            break;
-        }
+                        case 2: {
+                                System.out.println("Введите количество переменных:");
+                                int variableNumber = 0;
 
-        case 2:{
-            System.out.println("Введите количество переменных:");
-            int variableNumber = 0;
+                                do {
+                                        variableNumber = in.nextInt();
+                                } while (variableNumber <= 1);
 
-            do{
-                variableNumber = in.nextInt();
-            }while (variableNumber <= 1);
+                                double[][] matrixA = NewRandMatrix.generateMatrixA(variableNumber);
+                                double[] matrixB = NewRandMatrix.generateMatrixB(matrixA);
 
-            double[][] matrixA = NewRandMatrix.generateMatrixA(variableNumber);
-            double[] matrixB = NewRandMatrix.generateMatrixB(matrixA);
+                                System.out.println("Полученная СЛАУ в расширенной матрице:");
+                                for (int i = 0; i < matrixB.length; i++) {
+                                        for (int j = 0; j < matrixB.length; j++) {
+                                                System.out.print(matrixA[i][j] + " ");
+                                        }
+                                        System.out.println(matrixB[i]);
+                                }
+                                LinearSystem newSystem = new LinearSystem(matrixA, matrixB);
 
-            System.out.println("Полученная СЛАУ в расширенной матрице:");
-            for (int i = 0; i < matrixB.length; i++){
-                for (int j = 0; j < matrixB.length; j++){
-                    System.out.print(matrixA[i][j] + " ");
+                                String fileEps = "accuracy.txt";
+                                double eps = ReadFromFile.ReadEps(fileEps);
+
+                                Result resJacobi = JacobiMethod.JacobiCompute(newSystem.getMatrixC(), eps);
+
+                                Result resSeidel = SeidelMethod.SeidelCompute(newSystem.getMatrixC(), eps);
+
+                                PrintOut.PrintToConsole(resJacobi, resSeidel);
+
+                                PrintOut.PrintToFile(resJacobi, resSeidel);
+
+                                break;
+                        }
+
+                        default: {
+                                System.out.println("Введен неправильный режим работы. Завершение работы программы...");
+                                break;
+                        }
                 }
-                System.out.println(matrixB[i]);
-            }
-            LinearSystem newSystem = new LinearSystem(matrixA, matrixB);
-
-            String fileEps = "accuracy.txt";
-            double eps = ReadFromFile.ReadEps(fileEps);
-
-            Result resJacobi = JacobiMethod.JacobiCompute(newSystem.getMatrixC(), eps);
-
-            Result resSeidel = SeidelMethod.SeidelCompute(newSystem.getMatrixC(), eps);
-
-            PrintOut.PrintToConsole(resJacobi, resSeidel);
-
-            PrintOut.PrintToFile(resJacobi, resSeidel);
-
-            break;
         }
-
-        default:{
-            System.out.println("Введен неправильный режим работы. Завершение работы программы...");
-            break;
-        }
-    }
 }

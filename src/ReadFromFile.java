@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-
 public class ReadFromFile {
 
     public static void ReadMatrix(List<double[]> matrixListA, String filenameA, List<Double> matrixListB, String filenameB) {

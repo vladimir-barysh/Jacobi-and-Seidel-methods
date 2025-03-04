@@ -20,11 +20,11 @@ public class JacobiMethod{
             }
             for (int j = 0; j < variableNumber; j++){
                 if (i != j){
-                    sum += matrix[i][j];
+                    sum += Math.abs(matrix[i][j]);
                 }
             }
 
-            if (Math.abs(matrix[i][i]) < Math.abs(sum)){
+            if (Math.abs(matrix[i][i]) <= sum){
                 converges = false;
             }
 
@@ -32,7 +32,7 @@ public class JacobiMethod{
 
         if (!converges){
             System.out.println("Внимание!");
-            System.out.println("Строгое диагональное преобладание не соблюдается, матрица может не сходиться.");
+            System.out.println("Строгое диагональное преобладание не соблюдается, метод может не сходиться.");
             System.out.println("Продолжить вычисление?");
             System.out.println("1 - да, 2 - нет");
             Scanner scanner = new Scanner(System.in);
